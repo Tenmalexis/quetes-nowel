@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quêtes de Nowel — TENMALEXIS</title>
+<link rel="preconnect" href="https://fonts.bunny.net/">
+<link href="https://fonts.bunny.net/css?family=dm-sans:400,500,600,700,800|rajdhani:400,500,600,700|exo-2:400,600,700,800" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #232836;
+    --accent: #f4b400;
+    --accent2: #e05a2b;
+    --green: #2ecc71;
+    --teal: #1abc9c;
+    --red: #e74c3c;
+    --blue: #3498db;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --pill-day: #1d3d2e;
+    --pill-day-text: #2ecc71;
+    --pill-week: #1e2d4a;
+    --pill-week-text: #60aef0;
+    --gold: #f4b400;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---- HEADER ---- */
+  header {
+    background: linear-gradient(135deg, #0d0f14 0%, #141820 60%, #0f1218 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 64px;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    opacity: 0.5;
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-dofus {
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #0a0c10;
+    flex-shrink: 0;
+  }
+  .header-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.1;
+  }
+  .header-title span {
+    color: var(--accent);
+  }
+  .header-sub {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .header-sub a {
+    color: #ff2d2d;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: color 0.18s;
+  }
+  .header-sub a:hover { color: #ff6060; }
+  .header-sub-yticon { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .yt-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    text-decoration: none;
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .yt-link:hover {
+    background: rgba(255,0,0,0.12);
+    border-color: rgba(255,0,0,0.4);
+    color: #ff4545;
+  }
+  .yt-icon { width: 18px; height: 18px; }
+
+  /* ---- MAIN ---- */
+  .main-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 20px 80px;
+  }
+
+  /* ---- STATS BAR ---- */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .stat-card.gold::before { background: var(--gold); }
+  .stat-card.teal::before { background: var(--teal); }
+  .stat-card.blue::before { background: var(--blue); }
+  .stat-card.orange::before { background: var(--accent2); }
+  .stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .stat-val {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: 0.02em;
+  }
+  .stat-card.gold .stat-val { color: var(--gold); }
+  .stat-card.teal .stat-val { color: var(--teal); }
+  .stat-card.blue .stat-val { color: var(--blue); }
+  .stat-card.orange .stat-val { color: var(--accent2); }
+  .stat-unit {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ---- CONTROLS ---- */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #0a0c10; }
+  .filter-btn.active-week { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+  .reset-btn {
+    margin-left: auto;
+    background: rgba(231,76,60,0.08);
+    border: 1px solid rgba(231,76,60,0.25);
+    border-radius: 6px;
+    color: #e74c3c;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .reset-btn:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; }
+
+  /* ---- SECTIONS ---- */
+  .zone-section {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .zone-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.18s;
+  }
+  .zone-header:hover { background: #1d2130; }
+  .zone-icon {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  .zone-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    flex: 1;
+  }
+  .zone-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+  }
+  .zone-total {
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .zone-chevron {
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+  .zone-section.collapsed .zone-chevron { transform: rotate(-90deg); }
+  .zone-section.collapsed .zone-body { display: none; }
+
+  /* ---- TABLE ---- */
+  .quest-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .quest-table thead tr {
+    background: rgba(255,255,255,0.02);
+  }
+  .quest-table th {
+    padding: 8px 14px;
+    text-align: left;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .quest-table th:last-child,
+  .quest-table td:last-child { text-align: center; width: 60px; }
+  .quest-table th:nth-child(3),
+  .quest-table td:nth-child(3) { text-align: right; }
+
+  .quest-table tr.quest-row {
+    border-bottom: 1px solid rgba(35,40,54,0.6);
+    transition: background 0.15s;
+    position: relative;
+  }
+  .quest-table tr.quest-row:last-child { border-bottom: none; }
+  .quest-table tr.quest-row:hover { background: rgba(255,255,255,0.025); }
+  .quest-table tr.quest-row.done {
+    opacity: 0.45;
+    background: rgba(0,0,0,0.15);
+  }
+  .quest-table tr.quest-row.done td.quest-name span {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  .quest-table td {
+    padding: 10px 14px;
+    vertical-align: middle;
+  }
+  .quest-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .quest-name a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .quest-name a:hover span { color: var(--accent); }
+  .guide-icon {
+    font-size: 11px;
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+  .kamas-val {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .kamas-val.zero { color: var(--muted); font-size: 12px; font-weight: 400; }
+  .gain-annexe {
+    font-size: 14px;
+    color: var(--teal);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .gain-annexe.variable {
+    font-style: italic;
+    color: var(--accent2);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .pill.day { background: var(--pill-day); color: var(--pill-day-text); }
+  .pill.week { background: var(--pill-week); color: var(--pill-week-text); }
+
+  /* ---- CHECKBOXES ---- */
+  .check-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .quest-check {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    cursor: pointer;
+    background: var(--bg);
+    transition: all 0.18s;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .quest-check:hover { border-color: var(--accent); }
+  .quest-check:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .quest-check:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #0a0c10;
+    font-size: 12px;
+    font-weight: 900;
+  }
+
+  /* ---- VARIANT NOTE ---- */
+  .variant-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(244,180,0,0.06);
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .variant-note strong { color: var(--accent); font-style: normal; }
+
+  /* ---- PROGRESS BAR ---- */
+  .progress-wrap {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+  }
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .progress-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .progress-count {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent);
+  }
+  .progress-bar-bg {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--accent));
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+
+  /* ---- FOOTER NOTE ---- */
+  .footer-note {
+    margin-top: 32px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .footer-note strong { color: var(--accent); }
+
+  /* ---- HIDDEN FILTER ---- */
+  tr.hidden-filter { display: none; }
+
+  /* ---- RESPONSIVE TABLET (≤900px) ---- */
+  @media (max-width: 900px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .main-wrap { padding: 16px 14px 60px; }
+    .quest-table th, .quest-table td { padding: 9px 10px; }
+  }
+
+  /* ---- RESPONSIVE MOBILE (≤600px) ---- */
+  @media (max-width: 600px) {
+    header {
+      height: auto;
+      padding: 10px 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .header-title { font-size: 18px; }
+    .logo-dofus { width: 30px; height: 30px; font-size: 15px; }
+    .yt-link { padding: 5px 10px; font-size: 12px; }
+    .yt-link span { display: none; }
+
+    .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .stat-val { font-size: 20px; }
+    .stat-label { font-size: 10px; }
+    .stat-unit { font-size: 11px; }
+
+    .main-wrap { padding: 12px 10px 60px; }
+
+    .controls { gap: 6px; }
+    .filter-btn, .reset-btn { font-size: 12px; padding: 6px 10px; }
+    .reset-btn { margin-left: 0; width: 100%; text-align: center; }
+
+    /* Hide Gain Annexe column on mobile */
+    .quest-table th:nth-child(3),
+    .quest-table td:nth-child(3) { display: none; }
+
+    .quest-table th, .quest-table td { padding: 8px 8px; }
+    .quest-name { font-size: 13px; }
+    .kamas-val { font-size: 13px; }
+    .pill { font-size: 11px; padding: 2px 7px; }
+
+    .zone-name { font-size: 14px; }
+    .zone-meta { display: none; }
+    .zone-header { padding: 10px 12px; }
+
+    .progress-wrap { padding: 12px 14px; }
+    .progress-label { font-size: 12px; }
+    .progress-count { font-size: 13px; }
+    .variant-note { font-size: 11px; padding: 7px 12px; }
+  }
+
+  /* ---- VERY SMALL (≤380px) ---- */
+  @media (max-width: 380px) {
+    /* Also hide Période column */
+    .quest-table th:nth-child(4),
+    .quest-table td:nth-child(4) { display: none; }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* animation */
+  .zone-section { animation: fadeUp 0.35s ease both; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+/* =========================================================
+   TENMALEXIS — DA UNIFIÉE (même structure que INDEX)
+   ========================================================= */
+:root{
+  --bg:#0a0c10;
+  --bg-elevated:#12151c;
+  --surface:#111318;
+  --surface2:#181c24;
+  --border:#20242e;
+  --border-strong:#2b3140;
+  --gold:#f4b400;
+  --gold-dim:#8a6a10;
+  --text:#e8e9ed;
+  --text-dim:#8b909c;
+  --accent:#f4b400;
+  --accent2:#e05a2b;
+  --green:#2ecc71;
+  --teal:#1abc9c;
+  --red:#e74c3c;
+  --blue:#3498db;
+}
+
+body{
+  background:
+    radial-gradient(circle at 18% -10%,rgba(244,180,0,.045),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+}
+
+/* HEADER — même langage visuel que INDEX */
+header{
+  min-height:84px;
+  height:auto;
+  padding:16px clamp(20px,5vw,56px);
+  background:rgba(10,12,16,.94);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
+header::after{display:none}
+
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.logo-dofus{
+  width:52px;
+  height:52px;
+  border:1.5px solid var(--gold);
+  border-radius:10px;
+  background:transparent;
+  color:var(--gold);
+  font-family:'Rajdhani',sans-serif;
+  font-size:20px;
+  box-shadow:0 0 12px rgba(244,180,0,.10);
+}
+.header-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:1.55rem;
+  font-weight:700;
+  letter-spacing:.03em;
+  color:#fff;
+}
+.header-title span{color:var(--gold)}
+.header-sub{display:none}
+.yt-link{display:none}
+
+/* Réseaux */
+nav.social{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.social-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  padding:6px 16px 8px;
+  border-radius:14px;
+  transition:background .15s ease,box-shadow .15s ease,transform .15s ease;
+}
+.social-item:hover{transform:translateY(-1px)}
+.social-item .platform-label{
+  font-family:'Exo 2',sans-serif;
+  font-size:.6rem;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  opacity:.75;
+}
+.social-item a{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-family:'Exo 2',sans-serif;
+  font-size:.85rem;
+  font-weight:600;
+  color:inherit;
+  text-decoration:none;
+}
+.social-item.youtube{
+  color:#ff5c5c;
+  background:rgba(255,59,59,.10);
+  border:1px solid rgba(255,59,59,.45);
+  box-shadow:0 0 12px rgba(255,59,59,.18);
+}
+.social-item.youtube:hover{background:rgba(255,59,59,.16);box-shadow:0 0 16px rgba(255,59,59,.30)}
+.social-item.twitch{
+  color:#b794ff;
+  background:rgba(145,70,255,.12);
+  border:1px solid rgba(145,70,255,.50);
+  box-shadow:0 0 12px rgba(145,70,255,.22);
+}
+.social-item.twitch:hover{background:rgba(145,70,255,.18);box-shadow:0 0 16px rgba(145,70,255,.35)}
+.social-item.ankama{
+  color:var(--gold);
+  background:rgba(244,180,0,.10);
+  border:1px solid rgba(244,180,0,.45);
+  box-shadow:0 0 12px rgba(244,180,0,.18);
+  justify-content:center;
+  padding-top:12px;
+  padding-bottom:12px;
+}
+.social-item.ankama:hover{background:rgba(244,180,0,.16);box-shadow:0 0 16px rgba(244,180,0,.30)}
+.social-item.tiktok{
+  color:#4dedea;
+  background:rgba(37,244,238,.10);
+  border:1px solid rgba(37,244,238,.45);
+  box-shadow:0 0 12px rgba(37,244,238,.18);
+}
+.social-item.tiktok:hover{background:rgba(37,244,238,.16);box-shadow:0 0 16px rgba(37,244,238,.30)}
+
+/* MAIN */
+.main-wrap{
+  max-width:1180px;
+  padding:28px clamp(20px,5vw,56px) 80px;
+}
+
+/* STATS */
+.stats-bar{gap:14px;margin-bottom:24px}
+.stat-card{
+  background:var(--bg-elevated);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px 18px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.stat-card::before{height:2px}
+.stat-label{
+  color:var(--text-dim);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.stat-val{font-size:28px}
+
+/* PROGRESSION */
+.progress-wrap{
+  background:var(--bg-elevated);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px 18px;
+}
+.progress-label{color:var(--text-dim)}
+.progress-count{color:var(--gold)}
+.progress-bar-bg{background:#242a35}
+.progress-bar-fill{
+  background:linear-gradient(90deg,#c99000,var(--gold));
+  box-shadow:0 0 10px rgba(244,180,0,.18);
+}
+
+/* CONTROLS */
+.filter-btn{
+  background:#10141b;
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--text-dim);
+  padding:8px 16px;
+}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{
+  background:rgba(244,180,0,.12);
+  color:var(--gold);
+  border-color:rgba(244,180,0,.55);
+  box-shadow:0 0 10px rgba(244,180,0,.10);
+}
+.filter-btn.active-week{
+  background:rgba(52,152,219,.12);
+  border-color:rgba(52,152,219,.45);
+  color:#6dbcf2;
+}
+.reset-btn{
+  background:rgba(231,76,60,.08);
+  border:1px solid rgba(231,76,60,.3);
+  border-radius:8px;
+}
+
+/* SECTIONS / TABLES */
+.zone-section{
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--bg-elevated);
+  box-shadow:0 8px 22px rgba(0,0,0,.10);
+}
+.zone-header{
+  padding:12px 16px;
+  background:#0f131a;
+  border-bottom:1px solid var(--border);
+}
+.zone-header:hover{background:#141922}
+.zone-name{color:var(--gold)}
+.zone-total{color:var(--gold)}
+.quest-table thead tr{background:#0d1016}
+.quest-table th{
+  color:#a9afba;
+  border-bottom:1px solid var(--border);
+}
+.quest-table tr.quest-row{
+  border-bottom:1px solid #1c212b;
+}
+.quest-table tr.quest-row:hover{background:#151a22}
+.quest-name a:hover span{color:var(--gold)}
+.kamas-val{color:var(--gold)}
+
+.pill{
+  border-radius:999px;
+  padding:4px 10px;
+  font-size:12px;
+}
+.pill.day{
+  background:rgba(46,204,113,.10);
+  color:#52dd8e;
+  border:1px solid rgba(46,204,113,.28);
+}
+.pill.week{
+  background:rgba(52,152,219,.10);
+  color:#6dbcf2;
+  border:1px solid rgba(52,152,219,.28);
+}
+
+.quest-check{
+  background:#0d1016;
+  border:2px solid var(--border-strong);
+}
+.quest-check:hover{border-color:var(--gold)}
+.quest-check:checked{
+  background:var(--gold);
+  border-color:var(--gold);
+}
+
+.variant-note{
+  background:rgba(244,180,0,.055);
+  border-left:3px solid var(--gold);
+  color:#aeb3bd;
+}
+.variant-note strong{color:var(--gold)}
+
+.footer-note{
+  background:var(--bg-elevated);
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+.footer-note strong{color:var(--gold)}
+
+/* Responsive */
+@media(max-width:1100px){
+  nav.social{width:100%;justify-content:flex-start}
+}
+@media(max-width:600px){
+  header{padding:12px 14px}
+  .logo-dofus{width:42px;height:42px}
+  .header-title{font-size:1.15rem}
+  nav.social{gap:7px}
+  .social-item{padding:6px 10px 7px;border-radius:11px}
+  .social-item.ankama{padding-top:10px;padding-bottom:10px}
+  .social-item a{font-size:.74rem}
+  .social-item .platform-label{font-size:.51rem}
+}
+
+
+.logo-dofus img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TENMALEXIS — Harmonisation visuelle 2026 / Quêtes répétables
+   Même palette, polices et structure que les autres outils Tenmalexis.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root{
+  --bg:#07090d;
+  --surface:#0f1622;
+  --surface2:#141d2b;
+  --bg-elevated:#0f1622;
+  --border:#263040;
+  --border-strong:#354256;
+  --accent:#e3b451;
+  --gold:#e3b451;
+  --gold-dim:#a97c31;
+  --accent2:#dc9454;
+  --green:#55d59a;
+  --teal:#55d59a;
+  --blue:#72aef8;
+  --text:#f3f4f6;
+  --text-dim:#a0aabd;
+  --muted:#8592a5;
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
+  line-height:1.5;
+  background:radial-gradient(ellipse 65% 34% at 15% -8%,rgba(227,180,81,.08),transparent 60%),
+             radial-gradient(ellipse 43% 27% at 96% 8%,rgba(104,167,255,.055),transparent 64%),
+             #07090d;
+  color:var(--text);
+}
+button,input{font-family:'DM Sans',sans-serif;}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+header{
+  min-height:82px;height:auto;
+  padding:14px clamp(18px,4vw,52px);
+  background:rgba(7,9,13,.96);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 9px 30px rgba(0,0,0,.22);
+  gap:16px;
+}
+.header-left{gap:12px;min-width:0;flex-shrink:0;}
+.logo-dofus{
+  width:50px;height:50px;
+  border:1.5px solid #f4b400;
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(227,180,81,.12),rgba(227,180,81,.025));
+  color:var(--accent);
+  box-shadow:0 0 15px rgba(244,180,0,.08);
+  padding:5px;
+}
+.logo-dofus img,.logo-dofus .logo-fallback{width:100%;height:100%;object-fit:contain;}
+.brand-copy{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;}
+.header-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:800;letter-spacing:.015em;color:#f3f4f6;line-height:1.05;}
+.header-tagline{font-family:'Exo 2','DM Sans',sans-serif;font-size:11.5px;font-weight:700;color:var(--accent);white-space:nowrap;}
+nav.social{flex-wrap:wrap;justify-content:flex-end;gap:8px;}
+.social-item{padding:7px 13px;border-radius:12px;}
+.social-item a{font-size:12px;}
+.social-item .platform-label{font-size:9px;}
+.social-item.ankama{padding:11px 13px;}
+.main-wrap{max-width:1450px;width:100%;padding:24px clamp(18px,4vw,52px) 64px;}
+.tool-topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:20px;flex-wrap:wrap;}
+.tool-eyebrow{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--accent);margin-bottom:5px;}
+.tool-heading h1{font-family:'Rajdhani',sans-serif;font-size:clamp(26px,2.8vw,37px);font-weight:800;letter-spacing:.005em;line-height:1.1;}
+.tool-heading h1 span{color:var(--accent);}
+.tool-heading p{color:var(--text-dim);font-size:12px;margin-top:6px;}
+.characters-control{
+ display:flex;flex-direction:column;align-items:center;gap:5px;min-width:240px;
+ padding:12px 18px;background:linear-gradient(180deg,#141d2a,#0e1520);
+ border:1px solid rgba(227,180,81,.28);border-radius:12px;box-shadow:0 9px 24px rgba(0,0,0,.12);
+}
+.characters-label{font-weight:800;font-size:11px;letter-spacing:.04em;color:var(--text);}
+.characters-input-row{display:flex;align-items:center;gap:7px;}
+.characters-step{width:29px;height:29px;border-radius:7px;background:#111b29;border:1px solid #334054;color:var(--accent);font-size:18px;font-weight:700;cursor:pointer;line-height:1;}
+.characters-step:hover{background:rgba(227,180,81,.14);border-color:var(--accent);}
+#characters-count{height:31px;width:58px;text-align:center;background:#070d16;border:1px solid #3d4759;border-radius:7px;color:var(--accent);font-size:18px;font-family:'Rajdhani',sans-serif;font-weight:800;}
+#characters-count::-webkit-inner-spin-button,#characters-count::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+#characters-count{-moz-appearance:textfield;appearance:textfield;}
+.characters-hint{font-size:10px;color:var(--muted);text-align:center;max-width:265px;}
+.stats-bar{gap:12px;margin-bottom:18px;}
+.stat-card{background:linear-gradient(180deg,#111a27,#0c131d);border:1px solid var(--border);border-radius:12px;padding:15px 16px;box-shadow:0 8px 24px rgba(0,0,0,.11);}
+.stat-label{color:var(--text-dim);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;}
+.stat-val{font-size:29px;font-family:'Rajdhani',sans-serif;font-weight:800;}
+.stat-unit{color:var(--muted);font-size:11px;}
+.progress-wrap{background:#101824;border:1px solid var(--border);border-radius:12px;margin-bottom:18px;}
+.progress-label{font-size:12px;color:var(--text-dim);}
+.progress-bar-bg{height:7px;background:#283246;}
+.progress-bar-fill{background:linear-gradient(90deg,#c99232,#f4cf76);}
+.controls{gap:8px;margin-bottom:16px;}
+.filter-btn,.reset-btn{font-size:11px;font-weight:800;letter-spacing:.045em;padding:9px 14px;border-radius:9px;}
+.filter-btn{background:#101824;color:var(--text-dim);border-color:var(--border);}
+.filter-btn.active{background:linear-gradient(135deg,#e5bb65,#bd8b3e);border-color:#e5bb65;color:#0d1118;}
+.filter-btn.active-week{background:rgba(114,174,248,.12);border-color:rgba(114,174,248,.4);color:var(--blue);}
+.zone-section{border:1px solid var(--border);border-radius:13px;background:#0d141e;margin-bottom:15px;box-shadow:0 9px 28px rgba(0,0,0,.09);}
+.zone-header{padding:13px 16px;background:#121b28;}
+.zone-header:hover{background:#192536;}
+.zone-name{font-family:'Rajdhani',sans-serif;font-size:17px;letter-spacing:.035em;color:var(--accent);}
+.zone-meta{font-family:'DM Sans',sans-serif;font-size:11px;}
+.zone-total{font-size:12px;color:var(--accent);}
+.quest-table{font-size:12px;}
+.quest-table thead tr{background:#0f1723;}
+.quest-table th{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:800;letter-spacing:.055em;text-align:center;color:var(--muted);padding:11px 13px;}
+.quest-table th:first-child{text-align:left;}
+.quest-table td{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.035);}
+.quest-table tr.quest-row{border-bottom:1px solid rgba(255,255,255,.035);}
+.quest-table tr.quest-row:hover{background:rgba(227,180,81,.04);}
+.quest-table tr.quest-row.done{background:rgba(85,213,154,.025);opacity:.52;}
+.quest-name{font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;}
+.kamas-val{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;}
+.gain-annexe{font-family:'DM Sans',sans-serif;color:var(--green);font-size:12px;}
+.gain-annexe.variable{color:var(--accent2);}
+.pill{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:0;padding:4px 8px;}
+.quest-check{border-color:#3b4758;border-width:1.5px;}
+.quest-check:checked{background:var(--green);border-color:var(--green);}
+.variant-note{font-size:11px;color:#b5bfcf;border-color:var(--accent);background:rgba(227,180,81,.045);}
+.footer-note{background:#101824;border:1px solid var(--border);color:var(--muted);font-size:11.5px;}
+@media(max-width:1250px){header{align-items:flex-start;}nav.social{justify-content:flex-end;max-width:700px;}}
+@media(max-width:1080px){header{flex-direction:column;align-items:center;}nav.social{width:100%;max-width:none;justify-content:center;}.tool-topbar{gap:16px;}}
+@media(max-width:600px){
+ header{padding:12px 12px;gap:11px;}
+ .logo-dofus{width:43px;height:43px;}
+ .header-title{font-size:22px;}
+ .header-tagline{font-size:9.5px;white-space:normal;}
+ nav.social{gap:6px;}
+ .social-item{padding:5px 8px;border-radius:9px;}
+ .social-item.ankama{padding:9px 8px;}
+ .social-item a{font-size:10px;}
+ .social-item .platform-label{font-size:8px;}
+ .main-wrap{padding:17px 12px 50px;}
+ .tool-topbar{display:flex;flex-direction:column;align-items:stretch;margin-bottom:15px;}
+ .tool-heading{text-align:center;}
+ .tool-heading h1{font-size:29px;}
+ .tool-heading p{font-size:11px;}
+ .characters-control{align-self:stretch;min-width:0;padding:9px 10px;}
+ .characters-hint{font-size:9px;}
+ .stats-bar{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+ .stat-card{padding:12px 9px;min-width:0;}
+ .stat-val{font-size:23px;}
+ .quest-table th,.quest-table td{padding:9px 7px;}
+ .quest-table th{font-size:9px;}
+ .quest-name{font-size:11.5px;}
+ .kamas-val{font-size:13px;}
+ .pill{font-size:9px;padding:3px 6px;}
+ .reset-btn{margin-left:auto;width:auto;}
+}
+@media(max-width:410px){
+ .header-title{font-size:20px;}
+ .social-item{padding:5px 6px;}
+ .social-item a{font-size:9px;}
+ .quest-table th:nth-child(3),.quest-table td:nth-child(3){display:none;}
+}
+
+
+/* ── Alignement fiable — ne pas modifier display des cellules ── */
+/* Chaque tableau utilise les mêmes largeurs : en-têtes ET valeurs. */
+.quest-table { width:100%; table-layout:fixed; }
+.quest-table th:first-child { width:37% !important; }
+.quest-table th:nth-child(2) { width:17% !important; }
+.quest-table th:nth-child(3) { width:25% !important; }
+.quest-table th:nth-child(4) { width:15% !important; }
+.quest-table th:nth-child(5) { width:6% !important; }
+.quest-table th:first-child,
+.quest-table td:first-child { text-align:left; }
+.quest-table th:nth-child(2), .quest-table td:nth-child(2),
+.quest-table th:nth-child(3), .quest-table td:nth-child(3),
+.quest-table th:nth-child(4), .quest-table td:nth-child(4),
+.quest-table th:nth-child(5), .quest-table td:nth-child(5) { text-align:center !important; }
+/* Les TD doivent rester des cellules de tableau : sinon les contenus s'empilent. */
+.quest-table td.check-wrap { display:table-cell; vertical-align:middle; }
+.quest-table td.check-wrap .quest-check { display:block; margin:0 auto; }
+/* Identité déjà validée : tailles inchangées par rapport à la version précédente. */
+.header-title{font-size:34px;}
+.header-tagline{font-size:13.5px;}
+@media(max-width:600px) {
+  .header-title{font-size:25px;}
+  .header-tagline{font-size:11px;}
+  .quest-table th:first-child{width:34% !important;}
+  .quest-table th:nth-child(2){width:17% !important;}
+  .quest-table th:nth-child(3){width:24% !important;}
+  .quest-table th:nth-child(4){width:19% !important;}
+  .quest-table th:nth-child(5){width:6% !important;}
+}
+@media(max-width:410px) {
+  .header-title{font-size:23px;}
+  .header-tagline{font-size:10px;}
+  /* La colonne Gain Annexe est déjà masquée par la version d'origine. */
+  .quest-table th:first-child{width:45% !important;}
+  .quest-table th:nth-child(2){width:21% !important;}
+  .quest-table th:nth-child(4){width:24% !important;}
+  .quest-table th:nth-child(5){width:10% !important;}
+}
+
+
+.global-guide{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;margin-bottom:18px;border:1px solid var(--gold-dim);border-radius:13px;background:linear-gradient(110deg,rgba(227,180,81,.12),#101824);text-decoration:none;color:var(--text)}
+.global-guide strong{font-family:Rajdhani,sans-serif;font-size:25px;color:var(--accent)}.global-guide p{font-size:12px;color:var(--text-dim)}.global-guide>span{color:var(--accent);font-weight:700;white-space:nowrap}.global-guide:hover{border-color:var(--accent)}.pill.short{color:#dc9454;border:1px solid #754e32;background:#2a211b}.quest-table td{overflow-wrap:anywhere}.quest-table td.gain-annexe{line-height:1.6}
+@media(max-width:600px){.global-guide{align-items:flex-start;flex-direction:column;gap:8px}.zone-body{overflow-x:auto}.quest-table{min-width:680px}.quest-table th:nth-child(3),.quest-table td:nth-child(3),.quest-table th:nth-child(4),.quest-table td:nth-child(4){display:table-cell!important}.quest-table th:first-child{width:33%!important}.quest-table th:nth-child(2){width:15%!important}.quest-table th:nth-child(3){width:30%!important}.quest-table th:nth-child(4){width:14%!important}.quest-table th:nth-child(5){width:8%!important}}
+.social-item.horus{
+  color:#73d9f9;
+  background:rgba(45,178,221,.10);
+  border:1px solid rgba(73,199,238,.45);
+  box-shadow:0 0 12px rgba(73,199,238,.18);
+  justify-content:center;
+  padding-top:12px;
+  padding-bottom:12px;
+}
+.social-item.horus:hover{background:rgba(73,199,238,.16);box-shadow:0 0 16px rgba(73,199,238,.30)}
+.tool-heading h1{font-size:clamp(32px,4vw,48px);}
+@media(max-width:600px){.tool-heading h1{font-size:32px}.social-item.horus{padding:9px 8px}}
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="header-left">
+    <div class="logo-dofus" aria-hidden="true">
+      <img src="https://api.dofusdb.fr/img/items/16346.png" alt="Logo Nowel">
+    </div>
+    <div class="brand-copy">
+      <div class="header-title">Tenmalexis</div>
+      <div class="header-tagline">L'art de faire des kamas intelligemment</div>
+    </div>
+    <div class="logo-dofus" aria-hidden="true">
+      <img src="https://api.dofusdb.fr/img/items/16155.png" alt="Logo Nowel">
+    </div>
+  </div>
+
+  <nav class="social" aria-label="Réseaux Tenmalexis">
+<div class="social-item horus">
+        <a href="https://horus-x.com/TENMALEXIS" target="_blank" rel="noopener noreferrer sponsored" title="Lunettes gaming Horus X — lien affilié" aria-label="Lunettes gaming Horus X, lien affilié">
+          Lunettes gaming HORUS X
+        </a>
+      </div>
+    <div class="social-item ankama">
+      <a href="https://store.ankama.com/fr?code=TENMA" target="_blank" rel="noopener">
+        Code Créateur TENMA
+      </a>
+    </div>
+
+    <div class="social-item youtube">
+      <span class="platform-label">YouTube</span>
+      <a href="https://www.youtube.com/@Tenmalexis" target="_blank" rel="noopener">
+        ▶ @Tenmalexis
+      </a>
+    </div>
+
+    <div class="social-item twitch">
+      <span class="platform-label">Twitch</span>
+      <a href="https://www.twitch.tv/tenmalexis" target="_blank" rel="noopener">
+        ▶ @tenmalexis
+      </a>
+    </div>
+
+    <div class="social-item tiktok">
+      <span class="platform-label">TikTok</span>
+      <a href="https://www.tiktok.com/@tenmalexis" target="_blank" rel="noopener">
+        ♪ @tenmalexis
+      </a>
+    </div>
+  </nav>
+</header>
+
+
+<div class="main-wrap">
+
+  <div class="tool-topbar">
+<div class="tool-heading"><h1>Quêtes de l’île de <span>Nowel</span></h1></div>
+<label class="characters-control" for="characters-count">
+      <span class="characters-label">Nombre de personnages</span>
+      <span class="characters-input-row">
+        <button type="button" class="characters-step" onclick="stepCharacters(-1)" aria-label="Retirer un personnage">−</button>
+        <input id="characters-count" type="number" min="1" max="99" step="1" value="1" inputmode="numeric" aria-label="Nombre de personnages" oninput="setCharacters(this.value)" onblur="normalizeCharacters()">
+        <button type="button" class="characters-step" onclick="stepCharacters(1)" aria-label="Ajouter un personnage">+</button>
+      </span>
+      <span class="characters-hint">Les gains et ressources sont multipliés automatiquement</span>
+    </label>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-card gold">
+      <div class="stat-label">Gain Journalier</div>
+      <div class="stat-val" id="stat-daily">0</div>
+      <div class="stat-unit">kamas</div>
+    </div>
+    <div class="stat-card teal">
+      <div class="stat-label">Gain / Semaine</div>
+      <div class="stat-val" id="stat-weekly">0</div>
+      <div class="stat-unit">kamas</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">Quêtes cochées</div>
+      <div class="stat-val" id="stat-checked">0</div>
+      <div class="stat-unit">/ <span id="stat-total">0</span> quêtes</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">Kamas restants (1 passage)</div>
+      <div class="stat-val" id="stat-remain">0</div>
+      <div class="stat-unit">à collecter</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <div class="progress-label">Progression des quêtes</div>
+      <div class="progress-count"><span id="prog-done">0</span> / <span id="prog-total">0</span> cochées</div>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+
+
+
+
+    <button class="reset-btn" onclick="resetAll()">↺ Tout décocher</button>
+  </div>
+
+  <!-- ZONES -->
+  <a class="global-guide" href="https://www.dofuspourlesnoobs.com/icircle-de-nowel.html" target="_blank" rel="noopener"><div><div class="tool-eyebrow">GUIDE COMPLET</div><strong>Île de Nowel</strong><p>Retrouve l’ensemble des quêtes de l’île, dont celles du Hurledent.</p></div><span>Voir le guide ↗</span></a>
+  <div id="zones-container"></div>
+  
+</div>
+<script>
+// ---- DATA ----
+const ZONES = [{"id": "nowel", "name": "Quêtes répétables de Nowel", "icon": "", "quests": [{"id": "q1", "name": "Distribution de marrons", "url": "https://www.dofuspourlesnoobs.com/distribution-de-marrons.html", "kamas": 21990, "annexe": "3 x Kama Doré en Chocolat.", "period": "daily"}, {"id": "q2", "name": "Oranges pressées", "url": "https://www.dofuspourlesnoobs.com/oranges-presseacutees.html", "kamas": 0, "annexe": "1 x Kama Doré en Chocolat.", "period": "short"}, {"id": "q3", "name": "Glugubrr est un vilain grincheux", "url": "https://www.dofuspourlesnoobs.com/glugubrr-est-un-vilain-grincheux.html", "kamas": 552, "annexe": "3 x Kama Bronzé en Chocolat.", "period": "daily"}, {"id": "q4", "name": "Glugubrr a un mauvais fond", "url": "https://www.dofuspourlesnoobs.com/glugubrr-a-un-mauvais-fond.html", "kamas": 2210, "annexe": "4 x Fond de Culotte de Glugubrr.", "period": "weekly"}, {"id": "q5", "name": "Redolphe est un vilain grincheux", "url": "https://www.dofuspourlesnoobs.com/redolphe-est-un-vilain-grincheux.html", "kamas": 4452, "annexe": "3 x Kama Argenté en Chocolat.", "period": "daily"}, {"id": "q6", "name": "Redolphe a un coup dans le nez", "url": "https://www.dofuspourlesnoobs.com/redolphe-a-un-coup-dans-le-nez.html", "kamas": 17810, "annexe": "4 x Nez-Rouge de Redolphe.", "period": "weekly"}, {"id": "q7", "name": "Le Cafard Fadet est un vilain grincheux", "url": "https://www.dofuspourlesnoobs.com/le-cafard-fadet-est-un-vilain-grincheux.html", "kamas": 9052, "annexe": "3 x Kama Argenté en Chocolat.", "period": "daily"}, {"id": "q8", "name": "Le Cafard Fadet ne veut pas rendre l'antenne", "url": "https://www.dofuspourlesnoobs.com/le-cafard-fadet-ne-veut-pas-rendre-lantenne.html", "kamas": 36210, "annexe": "4 x Antennes du Cafard Fadet.", "period": "weekly"}, {"id": "q9", "name": "Oogie Betty est une vilaine grincheuse", "url": "https://www.dofuspourlesnoobs.com/oogie-betty-est-une-vilaine-grincheuse.html", "kamas": 12740, "annexe": "3 x Kama Doré en Chocolat.", "period": "daily"}, {"id": "q10", "name": "Oogie Betty mange à tous les râteliers", "url": "https://www.dofuspourlesnoobs.com/oogie-betty-mange-agrave-tous-les-racircteliers.html", "kamas": 50960, "annexe": "4 x Râtelier d'Oogie Betty.", "period": "weekly"}, {"id": "q11", "name": "Préparatifs de Nowel", "url": "https://www.dofuspourlesnoobs.com/preacuteparatifs-de-nowel.html", "kamas": 44760, "annexe": "4 x Kama Doré en Chocolat + 1 x Clef de la Maison du Papa Nowel + 3 x Superbe cadeau de Nowel", "period": "daily"}, {"id": "q12", "name": "Joyeux Nowel", "url": "https://www.dofuspourlesnoobs.com/joyeux-nowel.html", "kamas": 79760, "annexe": "4 x Kama Doré en Chocolat + 1 x Clef de la Maison du Papa Nowel + 3 x Superbe cadeau de Nowel", "period": "daily"}, {"id": "q13", "name": "Un peu de tonus", "url": "https://www.dofuspourlesnoobs.com/un-peu-de-tonus.html", "kamas": 0, "annexe": "1 x Racines de Jean Gimbre.", "period": "daily"}, {"id": "q14", "name": "Esprit de Nowel", "url": "https://www.dofuspourlesnoobs.com/esprit-de-nowel.html", "kamas": 0, "annexe": "1 x Objet de la boutique de Nowel + 1 x Superbe cadeau de Nowel + 1 x Clef de la Maison du Papa Nowel + 1 x Bonbon de Nowel", "period": "daily"}]}];
+let checked = {};
+let filter = 'all';
+let characters = 1;
+// Les deux quêtes sont alternatives : Préparatifs par défaut.
+function countedQuests(quests) {
+  return quests.filter(q => q.id !== (checked.q12 ? 'q11' : 'q12'));
+}
+
+function saveState() {
+  try { localStorage.setItem('tenma_nowel_v1', JSON.stringify(checked)); } catch(e) {}
+}
+function loadState() {
+  try {
+    const s = localStorage.getItem('tenma_nowel_v1');
+    if (s) checked = JSON.parse(s);
+    if (checked.q11 && checked.q12) checked.q12 = false;
+    const savedCharacters = Number(localStorage.getItem('tenma_nowel_characters_v1'));
+    if (Number.isInteger(savedCharacters) && savedCharacters >= 1 && savedCharacters <= 99) {
+      characters = savedCharacters;
+    }
+  } catch(e) {}
+}
+
+// ---- MULTI-PERSONNAGES ----
+function setCharacters(value) {
+  const number = Number(value);
+  if (!Number.isInteger(number) || number < 1 || number > 99) return;
+  characters = number;
+  try { localStorage.setItem('tenma_nowel_characters_v1', String(characters)); } catch(e) {}
+  updateRewardDisplays();
+  updateStats();
+}
+function normalizeCharacters() {
+  const input = document.getElementById('characters-count');
+  const n = Math.max(1, Math.min(99, Math.round(Number(input.value) || 1)));
+  input.value = n;
+  setCharacters(n);
+}
+function stepCharacters(direction) {
+  const input = document.getElementById('characters-count');
+  input.value = Math.max(1, Math.min(99, characters + direction));
+  setCharacters(input.value);
+}
+function formatAnnexe(text) {
+  if (!text) return '—';
+  // Ne multiplier que les quantités connues ; laisser les descriptions variables intactes.
+  return text.replace(/(\d+)\s*x\s*/g, (_, number) => fmt(Number(number) * characters) + ' x ');
+}
+function updateRewardDisplays() {
+  document.querySelectorAll('.zone-section').forEach(section => {
+    const zone = ZONES.find(z => 'zone-' + z.id === section.id);
+    if (!zone) return;
+    const zoneTotal = zone.variant
+      ? (zone.quests[0]?.kamas || 0)
+      : countedQuests(zone.quests).filter(q => filter === 'all' || q.period === filter).reduce((sum,q) => sum + (q.kamas || 0), 0);
+    const zoneAmount = section.querySelector('.zone-total');
+    if (zoneAmount) zoneAmount.textContent = `${fmt(zoneTotal * characters)} kamas${zone.variant ? '/quête' : ''}`;
+    zone.quests.forEach(q => {
+      const row = section.querySelector('#row-' + q.id);
+      if (!row) return;
+      const kamas = row.querySelector('.kamas-val');
+      if (kamas) kamas.textContent = q.kamas > 0 ? fmt(q.kamas * characters) : '—';
+      const annexe = row.querySelector('.gain-annexe');
+      if (annexe) annexe.textContent = formatAnnexe(q.annexe);
+    });
+  });
+}
+
+// ---- RENDER ----
+function render() {
+  const container = document.getElementById('zones-container');
+  container.innerHTML = '';
+
+  ZONES.forEach(zone => {
+    const section = document.createElement('div');
+    section.className = 'zone-section';
+    section.id = 'zone-' + zone.id;
+
+    const visibleQuests = filter === 'all' ? zone.quests :
+      zone.quests.filter(q => q.period === filter);
+    if (visibleQuests.length === 0) return;
+
+    // zone total kamas (non-variant)
+    const zoneKamas = zone.variant
+      ? (visibleQuests[0]?.kamas || 0) // une seule quête de variante comptée
+      : countedQuests(visibleQuests).reduce((s,q) => s + (q.kamas||0), 0);
+
+    section.innerHTML = `
+      <div class="zone-header" onclick="toggleZone('${zone.id}')">
+        <span class="zone-icon">${zone.icon}</span>
+        <span class="zone-name">${zone.name}</span>
+        <span class="zone-meta">
+          ${zoneKamas > 0 ? `<span class="zone-total">${fmt(zoneKamas * characters)} kamas${zone.variant ? '/quête' : ''}</span>` : ''}
+          <span>${countedQuests(visibleQuests).length} quête${countedQuests(visibleQuests).length > 1 ? 's' : ''}</span>
+        </span>
+        <span class="zone-chevron">▼</span>
+      </div>
+      <div class="zone-body">
+        ${zone.variant ? `<div class="variant-note">⚡ <strong>Variante :</strong> ${zone.variantNote}</div>` : ''}
+        <table class="quest-table">
+          <thead>
+            <tr>
+              <th style="width:36%">Quête</th>
+              <th>Gain Kamas</th>
+              <th>Gain Annexe</th>
+              <th>Période</th>
+              <th>✓</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${visibleQuests.map(q => `
+              <tr class="quest-row${checked[q.id] ? ' done' : ''}" id="row-${q.id}">
+                <td class="quest-name">
+                  <a href="${q.url}" target="_blank" rel="noopener">
+                    <span>${q.name}</span>
+                    <span class="guide-icon">↗</span>
+                  </a>
+                  ${q.id === 'q12' ? '<small style="color:var(--muted);font-size:10px">Alternative aux Préparatifs de Nowel (non cumulable)</small>' : ''}
+                </td>
+                <td class="kamas-val${q.kamas === 0 ? ' zero' : ''}" style="text-align:right">
+                  ${q.kamas > 0 ? fmt(q.kamas * characters) : '—'}
+                </td>
+                <td class="gain-annexe${q.variable ? ' variable' : ''}">
+                  ${formatAnnexe(q.annexe)}
+                </td>
+                <td>
+                  <span class="pill ${q.period === 'daily' ? 'day' : q.period === 'weekly' ? 'week' : 'short'}">
+                    ${q.period === 'daily' ? 'Journalier' : q.period === 'weekly' ? 'Hebdomadaire' : '7 minutes'}
+                  </span>
+                </td>
+                <td class="check-wrap">
+                  <input type="checkbox" class="quest-check" data-id="${q.id}"
+                    ${checked[q.id] ? 'checked' : ''}
+                    onchange="toggle('${q.id}', this.checked)">
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+    container.appendChild(section);
+  });
+
+  updateStats();
+}
+
+function fmt(n) {
+  return n.toLocaleString('fr-FR');
+}
+
+function toggle(id, val) {
+  checked[id] = val;
+  if (val && id === 'q11') checked.q12 = false;
+  if (val && id === 'q12') checked.q11 = false;
+  saveState();
+  for (const key of [id, ...(id === 'q11' ? ['q12'] : id === 'q12' ? ['q11'] : [])]) {
+    const row = document.getElementById('row-' + key);
+    if (row) {
+      row.className = 'quest-row' + (checked[key] ? ' done' : '');
+      row.querySelector('input').checked = !!checked[key];
+    }
+  }
+  updateRewardDisplays();
+  updateStats();
+}
+
+function toggleZone(id) {
+  const sec = document.getElementById('zone-' + id);
+  if (sec) sec.classList.toggle('collapsed');
+}
+
+
+
+function resetAll() {
+  if (!confirm('Tout décocher ?')) return;
+  checked = {};
+  saveState();
+  render();
+}
+
+function updateStats() {
+  let totalDaily = 0;
+  let checkedCount = 0;
+  let totalCount = 0;
+  let checkedKamas = 0;
+
+  // variant groups: count only max 1 checked per group
+  const variantGroupChecked = {};
+
+  ZONES.forEach(zone => {
+    countedQuests(zone.quests).forEach(q => {
+      totalCount++;
+      if (checked[q.id]) checkedCount++;
+    });
+  });
+
+  // compute daily total (with variant rules)
+  // Daily kamas = all non-variant daily + max 1 per variant group
+  ZONES.forEach(zone => {
+    if (zone.variant) {
+      // count just 1 quest (the first one's kamas as representative)
+      if (zone.quests.length > 0) {
+        totalDaily += zone.quests[0].kamas || 0;
+      }
+    } else {
+      countedQuests(zone.quests).forEach(q => {
+        if (q.period === 'daily') totalDaily += q.kamas || 0;
+      });
+    }
+  });
+
+  // checked kamas remaining
+  let uncheckedKamas = 0;
+  ZONES.forEach(zone => {
+    if (zone.variant) {
+      // une seule quête possible par groupe : validée dès qu'une variante est cochée
+      if (!zone.quests.some(q => checked[q.id])) {
+        uncheckedKamas += zone.quests[0]?.kamas || 0;
+      }
+    } else {
+      countedQuests(zone.quests).forEach(q => {
+        if (!checked[q.id]) uncheckedKamas += q.kamas || 0;
+      });
+    }
+  });
+
+  const weeklyOnly = getWeeklyOnlyTotal();
+
+  document.getElementById('stat-daily').textContent = fmt(totalDaily * characters);
+  document.getElementById('stat-weekly').textContent = fmt((totalDaily * 7 + weeklyOnly) * characters);
+  document.getElementById('stat-checked').textContent = checkedCount;
+  document.getElementById('stat-total').textContent = totalCount;
+  document.getElementById('stat-remain').textContent = fmt(uncheckedKamas * characters);
+
+  document.getElementById('prog-done').textContent = checkedCount;
+  document.getElementById('prog-total').textContent = totalCount;
+  document.getElementById('prog-bar').style.width = (totalCount ? Math.round(checkedCount / totalCount * 100) : 0) + '%';
+}
+
+function getWeeklyOnlyTotal() {
+  let s = 0;
+  ZONES.forEach(zone => {
+    zone.quests.forEach(q => {
+      if (q.period === 'weekly') s += q.kamas || 0;
+    });
+  });
+  return s;
+}
+
+// ---- INIT ----
+loadState();
+document.getElementById('characters-count').value = characters;
+render();
+</script>
+
+
+
+
+</body></html>
